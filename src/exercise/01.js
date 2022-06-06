@@ -3,8 +3,8 @@
 
 import React, { useState } from 'react'
 
-function Greeting() {
-  const [name, setName] = useState('')
+function Greeting({ initialName = '' }) {
+  const [name, setName] = useState(initialName)
 
   const handleChange = e => {
     setName(e.target.value)
@@ -22,7 +22,7 @@ function Greeting() {
 }
 
 function App() {
-  return <Greeting />
+  return <Greeting initialName='Hugo' />
 }
 
 export default App
