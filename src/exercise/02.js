@@ -1,24 +1,22 @@
 // useEffect: persistent state
 // http://localhost:3000/isolated/exercise/02.js
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-function Greeting({ initialName = '' }) {
-  const [name, setName] = React.useState(
-    () => window.localStorage.getItem('name') ?? initialName,
+const useLocalStorageState = ({ key, defaultValue = '' }) => {
+  const [item, setItem] = useState(
+    () => window.localStorage.getItem(key) ?? defaultValue,
   )
 
-  // I went a little too fast over the 2 previous exercises.
-  // and I already added the effect dependencies in the useEffect hook.
-  // So here what it should be for the previous exs :
-  // useEffect(() => {
-  //   window.localStorage.setItem('name', name)
-  // })
-
-  // And here what it should be now : 
   useEffect(() => {
-    window.localStorage.setItem('name', name)
-  }, [name])
+    window.localStorage.setItem(key, item)
+  }, [key, item])
+
+  return [item, setItem]
+}
+
+function Greeting({ initialName = '' }) {
+  const [name, setName] = useLocalStorageState({ key: 'name', defaultValue: initialName })
 
   const handleChange = e => {
     setName(e.target.value)
